@@ -2,6 +2,6 @@ import { Text, View } from "react-native";
 
 export default function LoginScreen() {
     return <View>
-        <Text>HI</Text>
+        <Text>Hi</Text>
     </View>
 }

@@ -5,7 +5,6 @@ export default function Index() {
   return (
     <View style={styles.container}>
       <Text>Edit src/app/index.tsx to edit this screen.</Text>
-      <Link href="/login">Login Page</Link>
     </View>
   );
 }
