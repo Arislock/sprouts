@@ -32,7 +32,7 @@ export const typography = {
   },
   xsmallReg: {
     fontFamily: "Fredoka-Medium",
-    fontSize: 10,
-    lineHeight: 12,
+    fontSize: 12,
+    lineHeight: 14,
   },
 } as const;

@@ -1,16 +1,19 @@
 import React from 'react'
-import { View, Text, Pressable } from 'react-native'
+import { View, Pressable } from 'react-native'
 import { colors } from '../app/theme/colors'
-import { typography } from '../app/theme/typography'
 import { useState } from 'react'
+import { DisplayText } from './DisplayText'
 
-type tabLabel = "habits" | "tasks";
+export type TabItem = {
+    label: string;
+    displayText: string;
+};
 
 type TabProps = {
-    label: tabLabel;
+    label: string;
     displayText: string;
-    activeTab: tabLabel;
-    onPress: (label: tabLabel) => void;
+    activeTab: string;
+    onPress: (label: string) => void;
 };
 
 const Tab = ({ label, displayText, activeTab, onPress }: TabProps) => {
@@ -28,13 +31,24 @@ const Tab = ({ label, displayText, activeTab, onPress }: TabProps) => {
                 borderRadius: 32,
             }}
         >
-            <Text style={typography.smallBold}>{displayText}</Text>
+            <DisplayText displayText={displayText} variant='mediumBold' color={isActive ? colors.white : colors.black}/>
         </Pressable>
     );
 };
 
-export const TabMenu = () => {
-    const [activeTab, setActiveTab] = useState<tabLabel>("habits");
+type TabMenuProps = {
+    tabs: TabItem[];
+    defaultTab?: string;
+    onChange?: (label: string) => void;
+};
+
+export const TabMenu = ({ tabs, defaultTab, onChange }: TabMenuProps) => {
+    const [activeTab, setActiveTab] = useState<string>(defaultTab ?? tabs[0]?.label);
+
+    const handlePress = (label: string) => {
+        setActiveTab(label);
+        onChange?.(label);
+    };
 
     return (
         <View
@@ -50,8 +64,15 @@ export const TabMenu = () => {
                 backgroundColor: colors.white,
             }}
         >
-            <Tab label="habits" displayText="Habits" activeTab={activeTab} onPress={setActiveTab} />
-            <Tab label="tasks" displayText="Tasks" activeTab={activeTab} onPress={setActiveTab} />
+            {tabs.map((tab) => (
+                <Tab
+                    key={tab.label}
+                    label={tab.label}
+                    displayText={tab.displayText}
+                    activeTab={activeTab}
+                    onPress={handlePress}
+                />
+            ))}
         </View>
     )
 }

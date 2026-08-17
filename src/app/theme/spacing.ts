@@ -1,5 +1,4 @@
 export const SPACING = {
-  // brand
   xs: 4,
   sm: 8,
   md: 12,
