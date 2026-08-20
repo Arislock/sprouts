@@ -1,11 +1,19 @@
+import { useState } from "react";
 import { Text, View } from "react-native";
 import { TabMenu } from "../../components/TabMenu";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { SPACING } from "../theme/spacing";
 import { Button } from "../../components/Button";
 import {HabitCard} from "../../components/Habit/HabitCard";
+import { BottomModal } from "../../components/BottomModal";
+import { colors } from "../theme/colors";
+import PlusIcon from "../../../assets/icons/plus.svg"
+import EditButton from "../../../assets/icons/edit.svg"
+
 
 export default function LoginScreen() {
+    const [isAddHabitOpen, setIsAddHabitOpen] = useState(false);
+
     return (
         <SafeAreaView className="flex-1">
             
@@ -17,11 +25,39 @@ export default function LoginScreen() {
                         { label: "tasks", displayText: "Tasks" },
                     ]}
                 />
-                <Button displayText="Hi"/>
 
                 <HabitCard/>
+
+            <View style={{
+                display: "flex",
+                flexDirection: "row",
+                gap: SPACING.sm,
+            }}>
+                <Button
+                    displayText="Add New Habit"
+                    border
+                    textColor={colors.darkGreen}
+                    bgColor={colors.white}
+                    style={{ flex: 1 }}
+                    icon={<PlusIcon width={16} height={16} color={colors.darkGreen}/>}
+                    onPress={() => setIsAddHabitOpen(true)}
+                />
+                <Button
+                    displayText="Edit Habits"
+                    border
+                    textColor={colors.darkGreen}
+                    bgColor={colors.white}
+                    style={{ flex: 1 }}
+                    icon={<EditButton width={16} height={16} color={colors.darkGreen}/>}
+                    onPress={() => {}}
+                />
             </View>
-        
+            </View>
+
+            <BottomModal visible={isAddHabitOpen} onClose={() => setIsAddHabitOpen(false)}>
+                <Text>Add New Habit</Text>
+            </BottomModal>
+
         </SafeAreaView>
     );
 }

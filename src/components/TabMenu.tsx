@@ -31,7 +31,7 @@ const Tab = ({ label, displayText, activeTab, onPress }: TabProps) => {
                 borderRadius: 32,
             }}
         >
-            <DisplayText displayText={displayText} variant='mediumBold' color={isActive ? colors.white : colors.black}/>
+            <DisplayText value={displayText} variant='mediumBold' color={isActive ? colors.white : colors.black}/>
         </Pressable>
     );
 };

@@ -3,6 +3,7 @@ import { View, Text } from 'react-native'
 import {typography} from '../../app/theme/typography'
 import {colors} from '../../app/theme/colors'
 import {DisplayText} from '../DisplayText'
+import { Tag } from '../Tag'
 
 type HabitCardDescriptionProps = {
     category: string;
@@ -10,13 +11,13 @@ type HabitCardDescriptionProps = {
 
 export const HabitCardInfo = ({category}: HabitCardDescriptionProps) => {
   return (
-    <View>
-    <DisplayText displayText="Hello World" variant='mediumReg' color={colors.black}/>
-
-    <Text
-    style={{ ...typography.xsmallReg, color: colors.black, marginTop: 8 }}>
-        {category}
-    </Text>
+    <View
+    style={{
+      display:'flex',
+      gap: 4,
+    }}>
+    <DisplayText value="Hello World" variant='mediumReg' color={colors.black}/>
+    <Tag value="hi" color="turqoise"/>
     </View>
 
 

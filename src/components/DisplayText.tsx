@@ -6,21 +6,21 @@ import { colors } from '../app/theme/colors'
 type TypographyVariant = keyof typeof typography;
 
 type DisplayTextProps = {
-  displayText: string;
+  value: string;
   variant?: TypographyVariant;
   color?: string;
   style?: TextStyle;
 }
 
 export const DisplayText = ({
-  displayText,
+  value,
   variant = 'mediumReg',
   color = colors.black,
   style,
 }: DisplayTextProps) => {
   return (
     <Text style={[typography[variant], { color }, style]}>
-      {displayText}
+      {value}
     </Text>
   )
 }
