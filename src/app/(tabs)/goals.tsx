@@ -2,13 +2,14 @@ import { useState } from "react";
 import { Text, View } from "react-native";
 import { TabMenu } from "../../components/TabMenu";
 import { SafeAreaView } from "react-native-safe-area-context";
-import { SPACING } from "../theme/spacing";
+import { SPACING } from "../../theme/spacing";
 import { Button } from "../../components/Button";
 import {HabitCard} from "../../components/Habit/HabitCard";
 import { BottomModal } from "../../components/BottomModal";
-import { colors } from "../theme/colors";
+import { colors } from "../../theme/colors";
 import PlusIcon from "../../../assets/icons/plus.svg"
-import EditButton from "../../../assets/icons/edit.svg"
+import EditIcon from "../../../assets/icons/edit.svg"
+import { router } from "expo-router";
 
 
 export default function LoginScreen() {
@@ -48,15 +49,13 @@ export default function LoginScreen() {
                     textColor={colors.darkGreen}
                     bgColor={colors.white}
                     style={{ flex: 1 }}
-                    icon={<EditButton width={16} height={16} color={colors.darkGreen}/>}
-                    onPress={() => {}}
+                    icon={<EditIcon width={16} height={16} color={colors.darkGreen}/>}
+                    onPress={() => {
+                        router.push("../screens/ManageHabitsScreen");
+                        }}
                 />
             </View>
             </View>
-
-            <BottomModal visible={isAddHabitOpen} onClose={() => setIsAddHabitOpen(false)}>
-                <Text>Add New Habit</Text>
-            </BottomModal>
 
         </SafeAreaView>
     );

@@ -1,7 +1,7 @@
 import React from 'react'
 import { Modal, Pressable } from 'react-native'
-import { colors } from '../app/theme/colors'
-import { SPACING } from '../app/theme/spacing'
+import { colors } from '../theme/colors'
+import { SPACING } from '../theme/spacing'
 
 type BottomModalProps = {
     visible: boolean;

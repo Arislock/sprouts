@@ -1,6 +1,6 @@
 import React from 'react'
 import { View, Pressable } from 'react-native'
-import { colors } from '../app/theme/colors'
+import { colors } from '../theme/colors'
 import { useState } from 'react'
 import { DisplayText } from './DisplayText'
 

@@ -1,8 +1,8 @@
 import React from 'react'
 import { View } from 'react-native'
 import { DisplayText } from './DisplayText'
-import { colors } from '@/app/theme/colors';
-import { SPACING } from '@/app/theme/spacing';
+import { colors } from '@/theme/colors';
+import { SPACING } from '@/theme/spacing';
 
 export type TagColor = 'lightBlue' | 'green' | 'purple' | 'darkBlue' | 'turqoise' | 'pink' | 'yellow' | 'orange';
 

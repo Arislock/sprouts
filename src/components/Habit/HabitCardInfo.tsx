@@ -1,7 +1,7 @@
 import React from 'react'
 import { View, Text } from 'react-native'
-import {typography} from '../../app/theme/typography'
-import {colors} from '../../app/theme/colors'
+import {typography} from '../../theme/typography'
+import {colors} from '../../theme/colors'
 import {DisplayText} from '../DisplayText'
 import { Tag } from '../Tag'
 

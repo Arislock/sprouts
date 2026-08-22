@@ -1,7 +1,7 @@
 import React from 'react'
 import { Text, TextStyle } from 'react-native'
-import { typography } from '../app/theme/typography'
-import { colors } from '../app/theme/colors'
+import { typography } from '../theme/typography'
+import { colors } from '../theme/colors'
 
 type TypographyVariant = keyof typeof typography;
 

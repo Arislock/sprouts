@@ -1,7 +1,7 @@
 import React from 'react'
 import { View } from 'react-native'
 import { DisplayText } from '../DisplayText'
-import { colors } from '@/app/theme/colors'
+import { colors } from '@/theme/colors'
 
 export const HabitCardStatus = () => {
   return (

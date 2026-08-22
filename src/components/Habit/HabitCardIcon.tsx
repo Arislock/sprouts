@@ -1,6 +1,6 @@
 import React from 'react'
 import { View } from 'react-native'
-import { colors } from '../../app/theme/colors'
+import { colors } from '../../theme/colors'
 
 export const HabitCardIcon = () => {
   return (
