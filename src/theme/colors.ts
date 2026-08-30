@@ -4,6 +4,7 @@ export const colors = {
   lightGreen: "#D3DCAD",
   darkGreen: "#97AC4F",
   black: "#000000",
+  disabledGreen: "#C0CD94",
 
   bg: "#FDF9F0",
 
