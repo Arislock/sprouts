@@ -17,7 +17,7 @@ export const RoundedButton = ({icon, border, size, onPress } : RoundedButtonProp
         height: size,
         borderRadius: 18,
         borderWidth: border ? 2 : undefined,
-        borderColor: border ? colors.lightGreen : undefined,
+        borderColor: border ? colors.darkGreen : undefined,
         backgroundColor: colors.white,
         alignItems: 'center',
         justifyContent: 'center',
