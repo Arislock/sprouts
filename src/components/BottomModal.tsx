@@ -4,19 +4,15 @@ import { SPACING } from '../theme/spacing'
 import { DisplayText } from './DisplayText';
 import CancelIcon from '@/assets/icons/cancel.svg'
 import { RoundedButton } from './RoundedButton';
-import { Button } from './Button';
 
 type BottomModalProps = {
     visible: boolean;
     onClose: () => void;
     header: string;
-    buttonText: string;
-    buttonColor: string;
-    onButtonPress: () => void;
-    buttonDisabled?: boolean;
+    children?: React.ReactNode;
 };
 
-export const BottomModal = ({ visible, onClose, header, buttonText, buttonColor, onButtonPress, buttonDisabled }: BottomModalProps) => {
+export const BottomModal = ({ visible, onClose, header, children }: BottomModalProps) => {
 
   return (
     <Modal
@@ -57,13 +53,7 @@ export const BottomModal = ({ visible, onClose, header, buttonText, buttonColor,
             />
             
           </View>
-          <Button
-            displayText={buttonText}
-            textColor={buttonColor}
-            onPress={onButtonPress}
-            disabled={buttonDisabled}
-            bgColor={buttonDisabled ? colors.disabledGreen : colors.darkGreen}
-          />
+          {children}
           </View>
         </Pressable>
       </Pressable>

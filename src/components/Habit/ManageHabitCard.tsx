@@ -3,7 +3,7 @@ import { View, Text } from 'react-native'
 import { colors } from '../../theme/colors'
 import { SPACING } from '../../theme/spacing'
 import { RoundedButton } from '../RoundedButton'
-import { BottomModal } from '../BottomModal'
+import { EditIconModal } from './ManageHabitModals/EditIconModal'
 import EditIcon from '@/assets/icons/edit.svg'
 
 export const ManageHabitCard = () => {
@@ -29,15 +29,7 @@ export const ManageHabitCard = () => {
 
         </View>
 
-        <BottomModal
-            visible={isEditOpen}
-            onClose={() => setIsEditOpen(false)}
-            header="Edit Icon"
-            buttonText="Use Icon"
-            buttonColor={colors.lightGreen}
-            onButtonPress={() => setIsEditOpen(false)}
-            buttonDisabled={true}
-        />
+        <EditIconModal visible={isEditOpen} onClose={() => setIsEditOpen(false)}/>
 
     </View>
   )
