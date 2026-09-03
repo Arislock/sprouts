@@ -4,16 +4,17 @@ import { colors } from '@/theme/colors';
 
 type CircleButtonProps = {
     icon: React.ReactNode;
+    iconSize?: number;
     border?: boolean;
     onPress: () => void;
 }
 
-export const CircleButton = ({icon, border, onPress } : CircleButtonProps) => {
+export const CircleButton = ({icon, iconSize, border, onPress } : CircleButtonProps) => {
 
   return (
     <TouchableOpacity style={{
-        width: 36,
-        height: 36,
+        width: iconSize,
+        height: iconSize,
         borderRadius: 18,
         borderWidth: border ? 2 : undefined,
         borderColor: border ? colors.lightGreen : undefined,

@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { Button } from '@/components/Button'
 import { colors } from '@/theme/colors'
 import { BottomModal } from '@/components/BottomModal';
@@ -15,24 +15,34 @@ const ROWS_PER_PAGE = 2;
 const ICONS_PER_PAGE = ICONS_PER_ROW * ROWS_PER_PAGE;
 
 export const EditIconModal = ({ visible, onClose }: EditIconModalProps) => {
-  const [buttonDisabled, setbuttonDisabled] = useState(false);
   const [pageWidth, setPageWidth] = useState(0);
   const [currentPage, setCurrentPage] = useState(0);
   const [selectedIcon, setSelectedIcon] = useState<string | null>(null);
+
+  useEffect(() => {
+    if (!visible) {
+      setSelectedIcon(null);
+      setCurrentPage(0);
+    }
+  }, [visible]);
 
   const icons = [
     "📚", "📝", "📖", "💻","💼",
     "🎯 ", "🧠", "🏋️", "🍎","💊",
     "🌙", "🍳", "☀️", "⏰","🎵",
-    "😀", "😎", "🥳", "🤩","🤩",
-    "😀", "😎", "🥳", "🤩","🤩",
-    "😀", "😎", "🥳", "🤩","🤩",
+    "📷", "🏠", "🧴", "🛌","🚶",
+    "🧘", "🧺", "🎸", "🧑‍🤝‍🧑","👨‍🍳",
+    "🌳", "🌿", "🚿", "🧹","👟",
   ]
 
   const pages = Array.from(
-    { length: Math.ceil(icons.length / ICONS_PER_PAGE) },
-    (_, pageIndex) => icons.slice(pageIndex * ICONS_PER_PAGE, pageIndex * ICONS_PER_PAGE + ICONS_PER_PAGE)
-  );
+  { length: Math.ceil(icons.length / ICONS_PER_PAGE) },
+  (_, pageIndex) =>
+    icons.slice(
+      pageIndex * ICONS_PER_PAGE,
+      (pageIndex + 1) * ICONS_PER_PAGE
+    )
+);
 
   const handleScrollEnd = (event: NativeSyntheticEvent<NativeScrollEvent>) => {
     if (!pageWidth) return;
@@ -100,11 +110,11 @@ export const EditIconModal = ({ visible, onClose }: EditIconModalProps) => {
         </View>
       </View>
       <Button
-        displayText="Hi"
-        textColor={colors.darkGreen}
+        displayText= { selectedIcon ? 'Use Icon' : 'Select an Icon'}
+        textColor={ selectedIcon? colors.white : colors.lightGreen}
         onPress={() => {}}
-        disabled={buttonDisabled}
-        bgColor={buttonDisabled ? colors.disabledGreen : colors.darkGreen}
+        disabled={!selectedIcon}
+        bgColor={!selectedIcon ? colors.disabledGreen : colors.darkGreen}
       />
     </View>
     </BottomModal>

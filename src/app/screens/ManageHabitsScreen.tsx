@@ -1,5 +1,5 @@
 import React from 'react'
-import { View, Text } from 'react-native'
+import { View, Text, Keyboard, TouchableWithoutFeedback } from 'react-native'
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { SPACING } from '@/theme/spacing';
 import { CircleButton } from '@/components/CircleButton';
@@ -13,12 +13,14 @@ export default function ManageHabitsScreen() {
   return (
         <SafeAreaView className="flex-1">
 
+        <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
         <View style={{ padding: SPACING.xl }}>
-        <CircleButton border icon={<LeftArrow width={24} height={24} color={colors.darkGreen}/>} onPress={() => router.back()}/>
+        <CircleButton border icon={<LeftArrow width={24} height={24} color={colors.darkGreen}/>} iconSize={40} onPress={() => router.back()}/>
         <DisplayText value="Manage Habits" variant="largeBold"/>
         <ManageHabitCard/>
-        
+
         </View>
+        </TouchableWithoutFeedback>
 
         </SafeAreaView>
     );
