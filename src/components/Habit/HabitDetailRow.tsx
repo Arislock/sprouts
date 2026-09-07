@@ -1,19 +1,26 @@
 import React from 'react'
-import { View } from 'react-native'
+import { View, TouchableOpacity } from 'react-native'
 import {CircleButton} from '../CircleButton'
-import EditIcon from '@/assets/icons/edit.svg'
 import { DisplayText } from '../DisplayText'
 
-export const HabitDetailRow = () => {
+type HabitDetailRowProps = {
+    icon: React.ReactNode;
+    value: string;
+    onPress: () => void;
+}
+
+export const HabitDetailRow = ({icon, value, onPress} : HabitDetailRowProps ) => {
   return (
+    <TouchableOpacity onPress={onPress} style={{ width: '100%'}}> 
     <View style={{
         display: 'flex',
         flexDirection: 'row',
         alignItems: 'center',
         gap: 8
     }}>
-        <CircleButton icon={<EditIcon/>} iconSize={32} onPress={() => {}}/>
-        <DisplayText value="Category" variant="mediumBold"/>
+        <CircleButton icon={icon} size={24} iconSize={16}/>
+        <DisplayText value={value} variant="smallReg"/>
     </View>
+    </TouchableOpacity>
   )
 }

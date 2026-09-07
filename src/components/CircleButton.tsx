@@ -4,18 +4,22 @@ import { colors } from '@/theme/colors';
 
 type CircleButtonProps = {
     icon: React.ReactNode;
+    size?: number;
     iconSize?: number;
     border?: boolean;
-    onPress: () => void;
+    onPress?: () => void;
 }
 
-export const CircleButton = ({icon, iconSize, border, onPress } : CircleButtonProps) => {
+export const CircleButton = ({icon, size = 40, iconSize, border, onPress } : CircleButtonProps) => {
+  const sizedIcon = iconSize && React.isValidElement(icon)
+    ? React.cloneElement(icon as React.ReactElement<any>, { width: iconSize, height: iconSize })
+    : icon;
 
   return (
     <TouchableOpacity style={{
-        width: iconSize,
-        height: iconSize,
-        borderRadius: 18,
+        width: size,
+        height: size,
+        borderRadius: size / 2,
         borderWidth: border ? 2 : undefined,
         borderColor: border ? colors.lightGreen : undefined,
         backgroundColor: colors.white,
@@ -23,8 +27,9 @@ export const CircleButton = ({icon, iconSize, border, onPress } : CircleButtonPr
         justifyContent: 'center',
     }}
     onPress={onPress}
+    disabled={!onPress}
     >
-      {icon}
+      {sizedIcon}
     </TouchableOpacity>
   )
 }
