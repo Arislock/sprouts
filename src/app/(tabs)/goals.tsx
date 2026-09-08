@@ -35,7 +35,7 @@ export default function LoginScreen() {
                 gap: SPACING.sm,
             }}>
                 <Button
-                    displayText="Add New Habit"
+                    value="Add New Habit"
                     border
                     textColor={colors.darkGreen}
                     bgColor={colors.white}
@@ -44,7 +44,7 @@ export default function LoginScreen() {
                     onPress={() => setIsAddHabitOpen(true)}
                 />
                 <Button
-                    displayText="Edit Habits"
+                    value="Edit Habits"
                     border
                     textColor={colors.darkGreen}
                     bgColor={colors.white}

@@ -9,9 +9,10 @@ export type TagColor = 'lightBlue' | 'green' | 'purple' | 'darkBlue' | 'turqoise
 type TagProps = {
     value: string;
     color: TagColor;
+    size: 'xsmall' | 'small' | 'medium' | 'large';
 };
 
-export const Tag = ({value, color}: TagProps) => {
+export const Tag = ({value, color, size}: TagProps) => {
   return (
     <View style={{
       backgroundColor: colors[color],
@@ -20,7 +21,7 @@ export const Tag = ({value, color}: TagProps) => {
       borderRadius: 999,
       alignSelf: 'flex-start',
     }}>
-      <DisplayText variant="xsmallReg" color={colors.black} value={value}/>
+      <DisplayText variant={`${size}Reg`} color={colors.black} value={value}/>
     </View>
   )
 }

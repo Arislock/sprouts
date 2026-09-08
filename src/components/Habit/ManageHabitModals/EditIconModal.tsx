@@ -61,7 +61,6 @@ export const EditIconModal = ({ visible, onClose }: EditIconModalProps) => {
       flexDirection: 'column',
       gap: 4,
       marginTop: 16,
-      marginBottom: 16
     }}>
       <View
         style={{ marginBottom: 16 }}
@@ -110,7 +109,7 @@ export const EditIconModal = ({ visible, onClose }: EditIconModalProps) => {
         </View>
       </View>
       <Button
-        displayText= { selectedIcon ? 'Use Icon' : 'Select an Icon'}
+        value={ selectedIcon ? 'Use Icon' : 'Select an Icon'}
         textColor={ selectedIcon? colors.white : colors.lightGreen}
         onPress={() => {}}
         disabled={!selectedIcon}

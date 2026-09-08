@@ -5,7 +5,7 @@ import { SPACING } from '../theme/spacing'
 import { DisplayText } from './DisplayText'
 
 type ButtonProps = {
-    displayText: string;
+    value: string;
     textColor?: string;
     bgColor?: string;
     border?: boolean;
@@ -17,7 +17,7 @@ type ButtonProps = {
 };
 
 export const Button = ({
-    displayText,
+    value,
     textColor = colors.white,
     bgColor = colors.darkGreen,
     border = false,
@@ -44,7 +44,7 @@ export const Button = ({
         }}
         >
             {icon}
-            <DisplayText value={displayText} variant='mediumReg' color={textColor}/>
+            <DisplayText value={value} variant='mediumReg' color={textColor}/>
         </View>
     </TouchableOpacity>
   )

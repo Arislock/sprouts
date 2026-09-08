@@ -87,7 +87,7 @@ export const ManageHabitCard = () => {
 
     {habitName.trim().length > 0 && (
       <Button
-        displayText="Save Habit"
+        value="Save Habit"
         textColor={colors.darkGreen}
         bgColor={colors.white}
         onPress={() => {}}
