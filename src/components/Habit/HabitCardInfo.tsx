@@ -17,7 +17,7 @@ export const HabitCardInfo = ({category}: HabitCardDescriptionProps) => {
       gap: 4,
     }}>
     <DisplayText value="Hello World" variant='mediumReg' color={colors.black}/>
-    <Tag value="hi" color="turqoise"/>
+    <Tag value="hi" color="turqoise" size="small"/>
     </View>
 
 

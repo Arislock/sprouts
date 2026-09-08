@@ -1,10 +1,11 @@
-import React from 'react'
+import {useState} from 'react'
 import { BottomModal } from '@/components/BottomModal'
 import { View, TouchableOpacity } from 'react-native'
 import { Button } from '@/components/Button'
 import { CircleButton } from '@/components/CircleButton'
 import PlusIcon from '@/assets/icons/plus.svg'
 import { Tag } from '@/components/Tag'
+import { NewCategoryModal } from './NewCategoryModal'
 
 type EditCategoryModalProps = {
     visible: boolean;
@@ -12,7 +13,10 @@ type EditCategoryModalProps = {
 };
 
 export const EditCategoryModal = ({ visible, onClose }: EditCategoryModalProps) => {
-  return (
+    const [selectedTag, setSelectedTag] = useState<string | null>(null);
+    const [isAddingNewTag, setIsAddingNewTag] = useState(false);
+
+    return (
     <BottomModal visible={visible} onClose={onClose} header="Category">
         <View
             style={{
@@ -33,27 +37,25 @@ export const EditCategoryModal = ({ visible, onClose }: EditCategoryModalProps) 
               marginBottom: 16
             }}>
 
-                <CircleButton icon={<PlusIcon/>} size={32} iconSize={16} onPress={() => {}}/>
+                <CircleButton icon={<PlusIcon/>} size={32} iconSize={16} onPress={() => setIsAddingNewTag(true)}/>
                 
-            <TouchableOpacity>
-                <Tag value="tamadochi" size="medium" color="lightBlue"/>
+            <TouchableOpacity onPress={() => setSelectedTag("tamadochi")}>
+                <Tag value="tamadochi" size="medium" color="lightBlue" border={selectedTag === "tamadochi"}/>
            </TouchableOpacity>
 
-            <TouchableOpacity>
-                <Tag value="tamadochi" size="medium" color="lightBlue"/>
+            <TouchableOpacity onPress={() => setSelectedTag("hey")}>
+                <Tag value="hey" size="medium" color="pink" border={selectedTag === "hey"}/>
            </TouchableOpacity>
 
-           <TouchableOpacity>
-                <Tag value="tamadochi" size="medium" color="lightBlue"/>
-           </TouchableOpacity>
-
-           <TouchableOpacity>
-                <Tag value="tamadochi" size="medium" color="lightBlue"/>
+           <TouchableOpacity onPress={() => setSelectedTag("another tag")}>
+                <Tag value="another tag" size="medium" color="yellow" border={selectedTag === "another tag"}/>
            </TouchableOpacity>
             </View>
             
 
             <Button value="Done" onPress={() => {}}/>
+
+            <NewCategoryModal visible={isAddingNewTag} onClose={() => setIsAddingNewTag(false)}/>
     </BottomModal>
   )
 }
