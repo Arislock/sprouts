@@ -1,23 +1,38 @@
-import {useState} from 'react'
+import {useEffect, useState} from 'react'
 import { BottomModal } from '@/components/BottomModal'
 import { View, TextInput, TouchableOpacity } from 'react-native'
 import { Button } from '@/components/Button'
 import { colors } from '@/theme/colors'
 import { SPACING } from '@/theme/spacing'
 import { TagColor } from '@/components/Tag'
+import { Category } from './EditCategoryModal'
 
 type NewCategoryModal = {
     visible: boolean;
     onClose: () => void;
+    onCreate: (category: Omit<Category, 'id'>) => void;
 };
 
 const TAG_COLORS: TagColor[] = ['lightBlue', 'green', 'purple', 'darkBlue', 'turqoise', 'pink', 'yellow', 'orange'];
 
-export const NewCategoryModal = ({ visible, onClose }: NewCategoryModal) => {
+export const NewCategoryModal = ({ visible, onClose, onCreate }: NewCategoryModal) => {
     const [selectedColor, setSelectedColor] = useState<TagColor | null>(null);
     const [categoryName, setCategoryName] = useState<string>('');
 
+    useEffect(() => {
+        if (!visible) {
+            setSelectedColor(null);
+            setCategoryName('');
+        }
+    }, [visible]);
+
     const isFormValid = !!selectedColor && categoryName.trim().length > 0;
+
+    const handleCreate = () => {
+        if (!isFormValid || !selectedColor) return;
+        onCreate({ name: categoryName.trim(), color: selectedColor });
+        onClose();
+    };
 
     return (
     <BottomModal visible={visible} onClose={onClose} header="New Category">
@@ -61,7 +76,7 @@ export const NewCategoryModal = ({ visible, onClose }: NewCategoryModal) => {
 
             <Button
                 value="Done"
-                onPress={() => {}}
+                onPress={handleCreate}
                 disabled={!isFormValid}
                 bgColor={isFormValid ? colors.darkGreen : colors.disabledGreen}
                 textColor={isFormValid ? colors.white : colors.lightGreen}

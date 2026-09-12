@@ -5,11 +5,11 @@ import { SPACING } from '../../theme/spacing'
 import { RoundedButton } from '../RoundedButton'
 import { Button } from '../Button'
 import { EditIconModal } from './ManageHabitModals/EditIconModal'
-import { EditCategoryModal } from './ManageHabitModals/EditCategoryModal'
-import { EditFrequencyModal } from './ManageHabitModals/EditFrequencyModal'
+import { EditCategoryModal, Category } from './ManageHabitModals/EditCategoryModal'
+import { Tag } from '../Tag'
+import { DisplayText } from '../DisplayText'
+import { EditFrequencyModal, MIN_TIMES_PER_DAY, formatFrequency } from './ManageHabitModals/EditFrequencyModal'
 import { EditReminderModal } from './ManageHabitModals/EditReminderModal'
-
-
 import EditIcon from '@/assets/icons/edit.svg'
 import TagIcon from '@/assets/icons/tag.svg'
 import ClockIcon from '@/assets/icons/clock.svg'
@@ -17,14 +17,22 @@ import BellIcon from '@/assets/icons/bell.svg'
 
 import { HabitDetailRow } from './HabitDetailRow'
 
-
 export const ManageHabitCard = () => {
   const [isEditOpen, setIsEditOpen] = useState(false);
   const [isCategoryOpen, setIsCategoryOpen] = useState(false);
   const [isFrequencyOpen, setIsFrequencyOpen] = useState(false);
   const [isReminderOpen, setIsReminderOpen] = useState(false);
-  
-  
+
+  const [selectedCategory, setSelectedCategory] = useState<Category | null>(null);
+
+  const [selectedDays, setSelectedDays] = useState<string[]>([]);
+  const [timesPerDay, setTimesPerDay] = useState(MIN_TIMES_PER_DAY);
+  const toggleDay = (day: string) => {
+    setSelectedDays((prev) =>
+      prev.includes(day) ? prev.filter((d) => d !== day) : [...prev, day]
+    );
+  };
+
   const [habitName, setHabitName] = useState('');
 
   return (
@@ -72,17 +80,41 @@ export const ManageHabitCard = () => {
     </View>
 
     <EditIconModal visible={isEditOpen} onClose={() => setIsEditOpen(false)}/>
-    <EditCategoryModal visible={isCategoryOpen} onClose={() => setIsCategoryOpen(false)}/>
-    <EditFrequencyModal visible={isFrequencyOpen} onClose={() => setIsFrequencyOpen(false)}/>
-    <EditReminderModal visible={isReminderOpen} onClose={() => setIsReminderOpen(false)}/>
+    <EditCategoryModal
+      visible={isCategoryOpen}
+      onClose={() => setIsCategoryOpen(false)}
+      selectedCategory={selectedCategory}
+      onSelectCategory={setSelectedCategory}
+    />
+    <EditFrequencyModal
+      visible={isFrequencyOpen}
+      onClose={() => setIsFrequencyOpen(false)}
+      selectedDays={selectedDays}
+      onToggleDay={toggleDay}
+      timesPerDay={timesPerDay}
+      onTimesPerDayChange={setTimesPerDay}
+    />
+    <EditReminderModal
+      visible={isReminderOpen}
+      onClose={() => setIsReminderOpen(false)}
+      frequencyDays={selectedDays}
+    />
 
     <View style={{
         display: 'flex',
         gap: 4,
     }}>
-    <HabitDetailRow icon={<TagIcon/>} value="Category" onPress={() => setIsCategoryOpen(true)}/>
-    <HabitDetailRow icon={<ClockIcon/>} value="Frequency" onPress={() => setIsFrequencyOpen(true)}/>
-    <HabitDetailRow icon={<BellIcon/>} value="Reminder" onPress={() => setIsReminderOpen(true)}/>
+    <HabitDetailRow icon={<TagIcon/>} value="Category" onPress={() => setIsCategoryOpen(true)}>
+      {selectedCategory ? (
+        <Tag value={selectedCategory.name} color={selectedCategory.color} size="xsmall"/>
+      ) : null}
+    </HabitDetailRow>
+    <HabitDetailRow icon={<ClockIcon/>} value="Frequency" onPress={() => setIsFrequencyOpen(true)}>
+      {selectedDays.length > 0 ? (
+        <DisplayText value={formatFrequency(selectedDays, timesPerDay)} variant="smallReg"/>
+      ) : null}
+    </HabitDetailRow>
+    <HabitDetailRow icon={<BellIcon/>} value="Reminder" toggle onPress={() => setIsReminderOpen(true)}/>
     </View>
 
     {habitName.trim().length > 0 && (
