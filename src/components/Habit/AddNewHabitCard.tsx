@@ -15,10 +15,24 @@ import EditIcon from '@/assets/icons/edit.svg'
 import TagIcon from '@/assets/icons/tag.svg'
 import ClockIcon from '@/assets/icons/clock.svg'
 import BellIcon from '@/assets/icons/bell.svg'
-
 import { HabitDetailRow } from './HabitDetailRow'
+import { useHabitStore } from '../../app/store/useHabitStore';
+import { router } from 'expo-router';
 
-export const AddNewHabitCard = () => {
+const addHabit = useHabitStore((state) => state.addHabit);
+
+type AddNewHabitCardProps = {
+  onSave: (habit: {
+    name: string;
+    icon: string | null;
+    category: Category | null;
+    days: string[];
+    timesPerDay: number;
+    reminderTime: Date | null;
+  }) => void;
+};
+
+export const AddNewHabitCard = ({ onSave }: AddNewHabitCardProps) => {
   const [isEditOpen, setIsEditOpen] = useState(false);
   const [isCategoryOpen, setIsCategoryOpen] = useState(false);
   const [isFrequencyOpen, setIsFrequencyOpen] = useState(false);
@@ -30,6 +44,7 @@ export const AddNewHabitCard = () => {
   const [timesPerDay, setTimesPerDay] = useState(MIN_TIMES_PER_DAY);
   const [reminderTime, setReminderTime] = useState<Date | null>(null);
   const [habitIcon, setHabitIcon] = useState<string | null>(null);
+  
   const toggleDay = (day: string) => {
     setSelectedDays((prev) =>
       prev.includes(day) ? prev.filter((d) => d !== day) : [...prev, day]
@@ -146,7 +161,17 @@ export const AddNewHabitCard = () => {
         value="Save Habit"
         textColor={colors.darkGreen}
         bgColor={colors.white}
-        onPress={() => {}}
+        onPress={() => {
+          addHabit({
+            name: habitName,
+            icon: habitIcon,
+            category: selectedCategory,
+            days: selectedDays,
+            timesPerDay,
+            reminderTime,
+          });
+          router.back();
+        }}
       />
     )}
     </View>

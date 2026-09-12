@@ -1,5 +1,6 @@
 import { Text, View, StyleSheet } from "react-native";
 import {Link} from "expo-router";
+import { colors } from "@/theme/colors";
 
 export default function Index() {
   return (
@@ -14,5 +15,6 @@ const styles = StyleSheet.create({
     flex: 1,
     alignItems: "center",
     justifyContent: "center",
+    backgroundColor: colors.bg,
   },
 });

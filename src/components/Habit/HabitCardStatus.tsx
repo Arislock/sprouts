@@ -3,7 +3,11 @@ import { View } from 'react-native'
 import { DisplayText } from '../DisplayText'
 import { colors } from '@/theme/colors'
 
-export const HabitCardStatus = () => {
+type HabitCardStatusProps = {
+  timesPerDay: number;
+};
+
+export const HabitCardStatus = ({ timesPerDay } : HabitCardStatusProps) => {
   return (
     <View
     style={{
@@ -17,10 +21,8 @@ export const HabitCardStatus = () => {
     }}>
 
     <DisplayText
-    style={{
-
-    }}
-    value="1"
+    value={timesPerDay.toString()}
+    color={colors.darkGreen}
     />
 
       

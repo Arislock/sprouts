@@ -9,14 +9,16 @@ import { colors } from "../../theme/colors";
 import PlusIcon from "../../../assets/icons/plus.svg"
 import EditIcon from "../../../assets/icons/edit.svg"
 import { router } from "expo-router";
-
+import {useHabitStore} from "../store/useHabitStore";
 
 export default function LoginScreen() {
-     const [activeTab, setActiveTab] = useState<string>("habits");
+    const [activeTab, setActiveTab] = useState<string>("habits");
+    const habits = useHabitStore((state) => state.habits);
+
     const [isAddHabitOpen, setIsAddHabitOpen] = useState(false);
     
     return (
-        <SafeAreaView className="flex-1">
+        <SafeAreaView style={{ flex: 1, backgroundColor: colors.bg }}>
             
             <View style={{ padding: SPACING.xl, gap: SPACING.md, display: "flex", flexDirection: "column" }}>
                 <TabMenu 
@@ -30,7 +32,9 @@ export default function LoginScreen() {
 
                 {activeTab === "habits" ? (
                 <>
-                <HabitCard/>
+                {habits.map((habit) => (
+                    <HabitCard key={habit.id} habit={habit} />
+                ))}
 
             <View style={{
                 display: "flex",
@@ -61,11 +65,7 @@ export default function LoginScreen() {
                 />
             </View>
                 </>
-            ) : (
-                <View style={{ display: "flex", flexDirection: "column", gap: SPACING.md }}>
-                    <HabitCard/>
-            </View>
-            )}
+            ) : null}
             </View>
 
         </SafeAreaView>

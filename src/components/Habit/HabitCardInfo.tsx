@@ -4,22 +4,22 @@ import {typography} from '../../theme/typography'
 import {colors} from '../../theme/colors'
 import {DisplayText} from '../DisplayText'
 import { Tag } from '../Tag'
+import { Category } from './ManageHabitModals/EditCategoryModal'
 
-type HabitCardDescriptionProps = {
-    category: string;
+type HabitCardInfoProps = {
+  name: string;
+  category: Category | null;
 };
 
-export const HabitCardInfo = ({category}: HabitCardDescriptionProps) => {
+export const HabitCardInfo = ({ name, category }: HabitCardInfoProps) => {
   return (
     <View
     style={{
       display:'flex',
       gap: 4,
     }}>
-    <DisplayText value="Hello World" variant='mediumReg' color={colors.black}/>
-    <Tag value="hi" color="turqoise" size="small"/>
+    <DisplayText value={name} variant='mediumReg' color={colors.black}/>
+    {category ? <Tag value={category.name} color={category.color} size="small"/> : null}
     </View>
-
-
   )
-}
+};

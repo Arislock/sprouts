@@ -5,8 +5,13 @@ import { SPACING } from '../../theme/spacing'
 import {HabitCardIcon} from './HabitCardIcon'
 import {HabitCardInfo} from './HabitCardInfo'
 import { HabitCardStatus } from './HabitCardStatus'
+import { Habit } from './Habit'
 
-export const HabitCard = () => {
+type HabitCardProps = {
+  habit: Habit;
+};
+
+export const HabitCard = ({ habit } : HabitCardProps) => {
   return (
     <View
     style={{
@@ -36,13 +41,14 @@ export const HabitCard = () => {
             alignItems: 'center',
             gap: 8
           }}>
-        <HabitCardIcon/>
-        <HabitCardInfo category='Morning'/>
+        <HabitCardIcon icon={habit.icon} />
+        <HabitCardInfo
+            name={habit.name}
+            category={habit.category}
+          />
         </View>
-        <HabitCardStatus/>
+        <HabitCardStatus timesPerDay={habit.timesPerDay} />
       </View>
-
-
     </View>
   )
 }
