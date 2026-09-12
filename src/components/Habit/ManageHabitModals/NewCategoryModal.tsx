@@ -4,6 +4,7 @@ import { View, TextInput, TouchableOpacity } from 'react-native'
 import { Button } from '@/components/Button'
 import { colors } from '@/theme/colors'
 import { SPACING } from '@/theme/spacing'
+import { typography } from '@/theme/typography'
 import { TagColor } from '@/components/Tag'
 import { Category } from './EditCategoryModal'
 
@@ -68,7 +69,8 @@ export const NewCategoryModal = ({ visible, onClose, onCreate }: NewCategoryModa
             }}>
                 <TextInput
                     placeholder='Enter Category Name'
-                    style={{ width: '100%' }}
+                    style={[typography.mediumReg, { width: '100%', color: colors.black }]}
+                    placeholderTextColor={colors.disabledGreen}
                     value={categoryName}
                     onChangeText={setCategoryName}
                 />

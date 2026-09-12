@@ -8,23 +8,31 @@ import { RoundedButton } from '@/components/RoundedButton';
 type EditIconModalProps = {
     visible: boolean;
     onClose: () => void;
+    icon: string | null;
+    onSelectIcon: (icon: string) => void;
 };
 
 const ICONS_PER_ROW = 5;
 const ROWS_PER_PAGE = 2;
 const ICONS_PER_PAGE = ICONS_PER_ROW * ROWS_PER_PAGE;
 
-export const EditIconModal = ({ visible, onClose }: EditIconModalProps) => {
+export const EditIconModal = ({ visible, onClose, icon, onSelectIcon }: EditIconModalProps) => {
   const [pageWidth, setPageWidth] = useState(0);
   const [currentPage, setCurrentPage] = useState(0);
-  const [selectedIcon, setSelectedIcon] = useState<string | null>(null);
+  const [selectedIcon, setSelectedIcon] = useState<string | null>(icon);
 
   useEffect(() => {
-    if (!visible) {
-      setSelectedIcon(null);
+    if (visible) {
+      setSelectedIcon(icon);
       setCurrentPage(0);
     }
-  }, [visible]);
+  }, [visible, icon]);
+
+  const handleUseIcon = () => {
+    if (!selectedIcon) return;
+    onSelectIcon(selectedIcon);
+    onClose();
+  };
 
   const icons = [
     "📚", "📝", "📖", "💻","💼",
@@ -111,7 +119,7 @@ export const EditIconModal = ({ visible, onClose }: EditIconModalProps) => {
       <Button
         value={ selectedIcon ? 'Use Icon' : 'Select an Icon'}
         textColor={ selectedIcon? colors.white : colors.lightGreen}
-        onPress={() => {}}
+        onPress={handleUseIcon}
         disabled={!selectedIcon}
         bgColor={!selectedIcon ? colors.disabledGreen : colors.darkGreen}
       />

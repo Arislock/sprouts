@@ -1,7 +1,8 @@
 import { useState } from 'react'
-import { View, TextInput } from 'react-native'
+import { View, TextInput, Text } from 'react-native'
 import { colors } from '../../theme/colors'
 import { SPACING } from '../../theme/spacing'
+import { typography } from '../../theme/typography'
 import { RoundedButton } from '../RoundedButton'
 import { Button } from '../Button'
 import { EditIconModal } from './ManageHabitModals/EditIconModal'
@@ -9,7 +10,7 @@ import { EditCategoryModal, Category } from './ManageHabitModals/EditCategoryMod
 import { Tag } from '../Tag'
 import { DisplayText } from '../DisplayText'
 import { EditFrequencyModal, MIN_TIMES_PER_DAY, formatFrequency } from './ManageHabitModals/EditFrequencyModal'
-import { EditReminderModal } from './ManageHabitModals/EditReminderModal'
+import { EditReminderModal, formatTime } from './ManageHabitModals/EditReminderModal'
 import EditIcon from '@/assets/icons/edit.svg'
 import TagIcon from '@/assets/icons/tag.svg'
 import ClockIcon from '@/assets/icons/clock.svg'
@@ -17,7 +18,7 @@ import BellIcon from '@/assets/icons/bell.svg'
 
 import { HabitDetailRow } from './HabitDetailRow'
 
-export const ManageHabitCard = () => {
+export const AddNewHabitCard = () => {
   const [isEditOpen, setIsEditOpen] = useState(false);
   const [isCategoryOpen, setIsCategoryOpen] = useState(false);
   const [isFrequencyOpen, setIsFrequencyOpen] = useState(false);
@@ -27,6 +28,8 @@ export const ManageHabitCard = () => {
 
   const [selectedDays, setSelectedDays] = useState<string[]>([]);
   const [timesPerDay, setTimesPerDay] = useState(MIN_TIMES_PER_DAY);
+  const [reminderTime, setReminderTime] = useState<Date | null>(null);
+  const [habitIcon, setHabitIcon] = useState<string | null>(null);
   const toggleDay = (day: string) => {
     setSelectedDays((prev) =>
       prev.includes(day) ? prev.filter((d) => d !== day) : [...prev, day]
@@ -57,7 +60,11 @@ export const ManageHabitCard = () => {
             flexDirection: 'column',
             justifyContent: 'space-between'
         }}>
-            <RoundedButton icon={<EditIcon/>} size={48} onPress={() => setIsEditOpen(true)}/>
+            <RoundedButton
+              icon={habitIcon ? <Text style={{ fontSize: 24 }}>{habitIcon}</Text> : <EditIcon/>}
+              size={48}
+              onPress={() => setIsEditOpen(true)}
+            />
 
         </View>
         
@@ -66,20 +73,26 @@ export const ManageHabitCard = () => {
             flexDirection: 'column',
             backgroundColor: colors.white,
             marginLeft: SPACING.md,
-            padding: SPACING.lg,
+            padding: SPACING.md,
             borderRadius: 16,
             flex: 1,
         }}>
             <TextInput
               placeholder='New Habit'
-              style={{ width: '100%' }}
+              style={[typography.mediumReg, { width: '100%', color: colors.black }]}
+              placeholderTextColor={colors.disabledGreen}
               value={habitName}
               onChangeText={setHabitName}
             />
         </View>
     </View>
 
-    <EditIconModal visible={isEditOpen} onClose={() => setIsEditOpen(false)}/>
+    <EditIconModal
+      visible={isEditOpen}
+      onClose={() => setIsEditOpen(false)}
+      icon={habitIcon}
+      onSelectIcon={setHabitIcon}
+    />
     <EditCategoryModal
       visible={isCategoryOpen}
       onClose={() => setIsCategoryOpen(false)}
@@ -97,7 +110,8 @@ export const ManageHabitCard = () => {
     <EditReminderModal
       visible={isReminderOpen}
       onClose={() => setIsReminderOpen(false)}
-      frequencyDays={selectedDays}
+      reminderTime={reminderTime}
+      onSetReminderTime={setReminderTime}
     />
 
     <View style={{
@@ -114,7 +128,17 @@ export const ManageHabitCard = () => {
         <DisplayText value={formatFrequency(selectedDays, timesPerDay)} variant="smallReg"/>
       ) : null}
     </HabitDetailRow>
-    <HabitDetailRow icon={<BellIcon/>} value="Reminder" toggle onPress={() => setIsReminderOpen(true)}/>
+    <HabitDetailRow
+      icon={<BellIcon/>}
+      value="Reminder"
+      toggle
+      toggleValue={!!reminderTime}
+      onToggleChange={(enabled) => enabled ? setIsReminderOpen(true) : setReminderTime(null)}
+      onPress={() => setIsReminderOpen(true)}>
+      {reminderTime ? (
+        <DisplayText value={formatTime(reminderTime)} variant="smallReg"/>
+      ) : null}
+    </HabitDetailRow>
     </View>
 
     {habitName.trim().length > 0 && (

@@ -44,7 +44,9 @@ export default function LoginScreen() {
                     bgColor={colors.white}
                     style={{ flex: 1 }}
                     icon={<PlusIcon width={16} height={16} color={colors.darkGreen}/>}
-                    onPress={() => setIsAddHabitOpen(true)}
+                    onPress={() => {
+                        router.push("../screens/AddNewHabitScreen");
+                        }}
                 />
                 <Button
                     value="Edit Habits"
@@ -54,7 +56,7 @@ export default function LoginScreen() {
                     style={{ flex: 1 }}
                     icon={<EditIcon width={16} height={16} color={colors.darkGreen}/>}
                     onPress={() => {
-                        router.push("../screens/ManageHabitsScreen");
+                        router.push("../screens/AddNewHabitScreen");
                         }}
                 />
             </View>
