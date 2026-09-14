@@ -1,5 +1,5 @@
 import { useState } from 'react'
-import { View, TextInput, Text } from 'react-native'
+import { View, TextInput, Text, Pressable } from 'react-native'
 import { colors } from '../../theme/colors'
 import { SPACING } from '../../theme/spacing'
 import { typography } from '../../theme/typography'
@@ -15,13 +15,12 @@ import EditIcon from '@/assets/icons/edit.svg'
 import TagIcon from '@/assets/icons/tag.svg'
 import ClockIcon from '@/assets/icons/clock.svg'
 import BellIcon from '@/assets/icons/bell.svg'
+import DeleteIcon from '@/assets/icons/delete.svg'
 import { HabitDetailRow } from './HabitDetailRow'
-import { useHabitStore } from '../../app/store/useHabitStore';
-import { router } from 'expo-router';
-
-const addHabit = useHabitStore((state) => state.addHabit);
+import { Habit } from './Habit'
 
 type AddNewHabitCardProps = {
+  habit?: Habit;
   onSave: (habit: {
     name: string;
     icon: string | null;
@@ -30,20 +29,23 @@ type AddNewHabitCardProps = {
     timesPerDay: number;
     reminderTime: Date | null;
   }) => void;
+  onDelete?: () => void;
 };
 
-export const AddNewHabitCard = ({ onSave }: AddNewHabitCardProps) => {
+export const AddNewHabitCard = ({ habit, onSave, onDelete }: AddNewHabitCardProps) => {
   const [isEditOpen, setIsEditOpen] = useState(false);
   const [isCategoryOpen, setIsCategoryOpen] = useState(false);
   const [isFrequencyOpen, setIsFrequencyOpen] = useState(false);
   const [isReminderOpen, setIsReminderOpen] = useState(false);
+  const [isEditingName, setIsEditingName] = useState(false);
 
-  const [selectedCategory, setSelectedCategory] = useState<Category | null>(null);
+  const [selectedCategory, setSelectedCategory] = useState<Category | null>(habit?.category ?? null);
 
-  const [selectedDays, setSelectedDays] = useState<string[]>([]);
-  const [timesPerDay, setTimesPerDay] = useState(MIN_TIMES_PER_DAY);
-  const [reminderTime, setReminderTime] = useState<Date | null>(null);
-  const [habitIcon, setHabitIcon] = useState<string | null>(null);
+  const [selectedDays, setSelectedDays] = useState<string[]>(habit?.days ?? []);
+  const [timesPerDay, setTimesPerDay] = useState(habit?.timesPerDay ?? MIN_TIMES_PER_DAY);
+  const [reminderTime, setReminderTime] = useState<Date | null>(habit?.reminderTime ?? null);
+  const [habitIcon, setHabitIcon] = useState<string | null>(habit?.icon ?? null);
+  const [habitName, setHabitName] = useState(habit?.name ?? '');
   
   const toggleDay = (day: string) => {
     setSelectedDays((prev) =>
@@ -51,7 +53,17 @@ export const AddNewHabitCard = ({ onSave }: AddNewHabitCardProps) => {
     );
   };
 
-  const [habitName, setHabitName] = useState('');
+  const sameDays =
+    selectedDays.length === (habit?.days.length ?? 0) &&
+    selectedDays.every((day) => habit?.days.includes(day));
+
+  const isModified =
+    habitName !== (habit?.name ?? '') ||
+    habitIcon !== (habit?.icon ?? null) ||
+    (selectedCategory?.id ?? null) !== (habit?.category?.id ?? null) ||
+    timesPerDay !== (habit?.timesPerDay ?? MIN_TIMES_PER_DAY) ||
+    (reminderTime?.getTime() ?? null) !== (habit?.reminderTime?.getTime() ?? null) ||
+    !sameDays;
 
   return (
     <View style={{
@@ -92,13 +104,27 @@ export const AddNewHabitCard = ({ onSave }: AddNewHabitCardProps) => {
             borderRadius: 16,
             flex: 1,
         }}>
+
+          {isEditingName ? (
             <TextInput
-              placeholder='New Habit'
-              style={[typography.mediumReg, { width: '100%', color: colors.black }]}
-              placeholderTextColor={colors.disabledGreen}
+              autoFocus
               value={habitName}
               onChangeText={setHabitName}
+              onBlur={() => setIsEditingName(false)}
+              style={[typography.mediumReg, { width: '100%', color: colors.black }]}
+              placeholder='New Habit'
+              placeholderTextColor={colors.disabledGreen}
             />
+          ) : (
+            <Pressable onPress={() => setIsEditingName(true)}>
+              <DisplayText
+                value={habitName || 'New Habit'}
+                variant="mediumReg"
+                color={habitName ? colors.darkGreen : colors.disabledGreen}
+              />
+            </Pressable>
+)}
+
         </View>
     </View>
 
@@ -146,9 +172,6 @@ export const AddNewHabitCard = ({ onSave }: AddNewHabitCardProps) => {
     <HabitDetailRow
       icon={<BellIcon/>}
       value="Reminder"
-      toggle
-      toggleValue={!!reminderTime}
-      onToggleChange={(enabled) => enabled ? setIsReminderOpen(true) : setReminderTime(null)}
       onPress={() => setIsReminderOpen(true)}>
       {reminderTime ? (
         <DisplayText value={formatTime(reminderTime)} variant="smallReg"/>
@@ -156,23 +179,36 @@ export const AddNewHabitCard = ({ onSave }: AddNewHabitCardProps) => {
     </HabitDetailRow>
     </View>
 
-    {habitName.trim().length > 0 && (
+    {habitName.trim().length > 0 && isModified && (
       <Button
-        value="Save Habit"
-        textColor={colors.darkGreen}
-        bgColor={colors.white}
-        onPress={() => {
-          addHabit({
-            name: habitName,
-            icon: habitIcon,
-            category: selectedCategory,
-            days: selectedDays,
-            timesPerDay,
-            reminderTime,
-          });
-          router.back();
-        }}
-      />
+          value={habit ? 'Update Habit' : 'Save Habit'}
+          textColor={colors.darkGreen}
+          bgColor={colors.white}
+          onPress={() => {
+            onSave({
+              name: habitName,
+              icon: habitIcon,
+              category: selectedCategory,
+              days: selectedDays,
+              timesPerDay,
+              reminderTime,
+            });
+          }}
+        />
+    )}
+
+    {habit && onDelete && !isModified && (
+      <View style={{
+          position: 'absolute',
+          bottom: SPACING.md,
+          right: SPACING.md,
+      }}>
+        <RoundedButton
+          icon={<DeleteIcon width={20} height={20} color={colors.darkGreen}/>}
+          size={36}
+          onPress={onDelete}
+        />
+      </View>
     )}
     </View>
   )

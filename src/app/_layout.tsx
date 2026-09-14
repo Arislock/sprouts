@@ -27,7 +27,8 @@ export default function RootLayout() {
       <Stack>
         <Stack.Screen name="(tabs)" options={{ headerShown: false }} />
         <Stack.Screen name="screens/AddNewHabitScreen" options={{ headerShown: false }} />
-      
+        <Stack.Screen name="screens/EditHabitsScreen" options={{ headerShown: false }} />
+
       </Stack>
     </SafeAreaProvider>
 

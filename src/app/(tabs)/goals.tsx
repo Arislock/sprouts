@@ -15,6 +15,10 @@ export default function LoginScreen() {
     const [activeTab, setActiveTab] = useState<string>("habits");
     const habits = useHabitStore((state) => state.habits);
 
+    const sortedHabits = [...habits].sort(
+        (a, b) => Number(a.remaining === 0) - Number(b.remaining === 0)
+    );
+
     const [isAddHabitOpen, setIsAddHabitOpen] = useState(false);
     
     return (
@@ -32,7 +36,7 @@ export default function LoginScreen() {
 
                 {activeTab === "habits" ? (
                 <>
-                {habits.map((habit) => (
+                {sortedHabits.map((habit) => (
                     <HabitCard key={habit.id} habit={habit} />
                 ))}
 
@@ -60,7 +64,7 @@ export default function LoginScreen() {
                     style={{ flex: 1 }}
                     icon={<EditIcon width={16} height={16} color={colors.darkGreen}/>}
                     onPress={() => {
-                        router.push("../screens/AddNewHabitScreen");
+                        router.push("../screens/EditHabitsScreen");
                         }}
                 />
             </View>

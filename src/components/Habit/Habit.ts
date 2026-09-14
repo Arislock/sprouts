@@ -7,5 +7,6 @@ export type Habit = {
   category: Category | null;
   days: string[];
   timesPerDay: number;
+  remaining: number;
   reminderTime: Date | null;
 };

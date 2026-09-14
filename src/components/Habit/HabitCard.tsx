@@ -1,18 +1,23 @@
 import React from 'react'
-import { View, Text } from 'react-native'
+import { View, Text, Pressable } from 'react-native'
 import { colors } from '../../theme/colors'
 import { SPACING } from '../../theme/spacing'
 import {HabitCardIcon} from './HabitCardIcon'
 import {HabitCardInfo} from './HabitCardInfo'
 import { HabitCardStatus } from './HabitCardStatus'
 import { Habit } from './Habit'
+import { useHabitStore } from '@/app/store/useHabitStore'
 
 type HabitCardProps = {
   habit: Habit;
 };
 
 export const HabitCard = ({ habit } : HabitCardProps) => {
+  const decrementHabit = useHabitStore((state) => state.decrementHabit);
+  const completed = habit.remaining === 0;
+
   return (
+    <Pressable onPress={() => decrementHabit(habit.id)}>
     <View
     style={{
         display: 'flex',
@@ -47,8 +52,9 @@ export const HabitCard = ({ habit } : HabitCardProps) => {
             category={habit.category}
           />
         </View>
-        <HabitCardStatus timesPerDay={habit.timesPerDay} />
+        <HabitCardStatus timesPerDay={habit.remaining} completed={completed}/>
       </View>
     </View>
+    </Pressable>
   )
 }
